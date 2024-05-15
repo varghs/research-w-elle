@@ -1,5 +1,6 @@
 import dilemma
 import numpy as np
+import random
 
 
 class Cheater(dilemma.Prisoner):
@@ -44,3 +45,21 @@ class Altruist(dilemma.Prisoner):
             matrix.payoffs[:, :, other_num].shape,
         )
         return max_idx[num]
+
+
+class Random(dilemma.Prisoner):
+    """
+    Picks a random choice
+    """
+
+    def choose(self, matrix: dilemma.PayoffMatrix, num: int) -> dilemma.Choice:
+        return random.choice(list(dilemma.Choice))
+
+
+class TitForTat(dilemma.Prisoner):
+    """
+    Does whatever the other player did on their last turn.
+    """
+
+    def choose(self, matrix: dilemma.PayoffMatrix, num: int) -> dilemma.Choice:
+        pass
