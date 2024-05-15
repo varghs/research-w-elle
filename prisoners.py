@@ -1,6 +1,7 @@
 import dilemma
 import numpy as np
 import random
+from collections import defaultdict
 
 
 class Cheater(dilemma.Prisoner):
@@ -60,6 +61,10 @@ class TitForTat(dilemma.Prisoner):
     """
     Does whatever the other player did on their last turn.
     """
+
+    def __init__(self, name: str):
+        super().__init__(name)
+        self.previous_choices = defaultdict(dilemma.Choice)
 
     def choose(self, matrix: dilemma.PayoffMatrix, num: int) -> dilemma.Choice:
         pass
