@@ -2,43 +2,45 @@ import dilemma
 import numpy as np
 
 
-"""
-Always cheats.
-"""
 class Cheater(dilemma.Prisoner):
+    """
+    Always cheats.
+    """
+
     def choose(self, matrix: dilemma.PayoffMatrix, num: int) -> dilemma.Choice:
         return dilemma.Choice.CHEAT
 
 
-"""
-Always cooperates.
-"""
 class Cooperator(dilemma.Prisoner):
+    """
+    Always cooperates.
+    """
+
     def choose(self, matrix: dilemma.PayoffMatrix, num: int) -> dilemma.Choice:
         return dilemma.Choice.COOPERATE
 
- 
 
-"""
-Picks the outcome with the highest potential payoff.
-"""
 class Greedy(dilemma.Prisoner):
+    """
+    Picks the outcome with the highest potential payoff.
+    """
+
     def choose(self, matrix: dilemma.PayoffMatrix, num: int) -> dilemma.Choice:
         max_idx = np.unravel_index(
-            np.argmax(matrix.payoffs[:, :, num]),
-            matrix.payoffs[:, :, num].shape
-            )
+            np.argmax(matrix.payoffs[:, :, num]), matrix.payoffs[:, :, num].shape
+        )
         return max_idx[num]
-    
-"""
-Picks the outcome with the highest potential payoff for their opponent.
-"""
+
+
 class Altruist(dilemma.Prisoner):
+    """
+    Picks the outcome with the highest potential payoff for their opponent.
+    """
+
     def choose(self, matrix: dilemma.PayoffMatrix, num: int) -> dilemma.Choice:
         other_num = (num + 1) % 2
         max_idx = np.unravel_index(
             np.argmax(matrix.payoffs[:, :, other_num]),
-            matrix.payoffs[:, :, other_num].shape
-            )
+            matrix.payoffs[:, :, other_num].shape,
+        )
         return max_idx[num]
-    
