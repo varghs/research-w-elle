@@ -46,3 +46,7 @@ class Tournament:
                     Result(self.players[i].name, self.players[j].name, outcome)
                 )
                 self.matrices[i * self.num_players + j].update(choice1, choice2)
+                self.players[i].update_strat(self.players[j].name, choice2)
+                self.players[j].update_strat(self.players[i].name, choice1)
+
+        return games

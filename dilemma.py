@@ -76,7 +76,11 @@ class Prisoner(ABC):
         self.name = name
 
     @abstractmethod
-    def choose(self, matrix: PayoffMatrix, num: int) -> Choice:
+    def choose(self, matrix: PayoffMatrix, num: int, other_player: str) -> Choice:
+        pass
+
+    @abstractmethod
+    def update_strat(self, other_player: str, other_player_choice: Choice):
         pass
 
 
