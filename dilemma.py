@@ -27,7 +27,8 @@ class PayoffMatrix:
                     (cheat_win_payoff, cheat_lose_payoff),
                     (cheat_both_payoff, cheat_both_payoff),
                 ],
-            ]
+            ],
+            dtype=np.float64,
         )
 
     def get_payoffs(self, choice1: Choice, choice2: Choice):
@@ -35,40 +36,19 @@ class PayoffMatrix:
 
     def update(self, choice1: Choice, choice2: Choice):
         if choice1 == Choice.CHEAT and choice2 == Choice.COOPERATE:
-            self.cheat_win_payoff -= 0.5
-            self.payoffs[choice1, choice2] = (
-                self.cheat_win_payoff,
-                self.cheat_lose_payoff,
-            )
-            self.payoffs[choice2, choice1] = (
-                self.cheat_lose_payoff,
-                self.cheat_win_payoff,
-            )
+            self.payoffs *= 0.98
 
         if choice1 == Choice.COOPERATE and choice2 == Choice.CHEAT:
-            self.cheat_win_payoff -= 0.5
-            self.payoffs[choice1, choice2] = (
-                self.cheat_lose_payoff,
-                self.cheat_win_payoff,
-            )
-            self.payoffs[choice2, choice1] = (
-                self.cheat_win_payoff,
-                self.cheat_lose_payoff,
-            )
+            self.payoffs *= 0.98
 
         if choice1 == Choice.CHEAT and choice2 == Choice.CHEAT:
-            self.cheat_both_payoff -= 0.25
-            self.payoffs[choice1, choice2] = (
-                self.cheat_both_payoff,
-                self.cheat_both_payoff,
-            )
+            self.payoffs *= 0.95
 
         if choice1 == Choice.COOPERATE and choice2 == Choice.COOPERATE:
-            self.cooperate_payoff += 0.75
-            self.payoffs[choice1, choice2] = (
-                self.cooperate_payoff,
-                self.cooperate_payoff,
-            )
+            self.payoffs *= 1.05
+
+    def __str__(self) -> str:
+        return str(self.payoffs)
 
 
 class Prisoner(ABC):
@@ -94,6 +74,6 @@ class PrisonersDilemma:
 
     def play(self):
         """Plays one iteration of the game."""
-        choice1 = self.agent1.choose(self.matrix, 0)
-        choice2 = self.agent2.choose(self.matrix, 1)
+        choice1 = self.agent1.choose(self.matrix, 0, self.agent2.name)
+        choice2 = self.agent2.choose(self.matrix, 1, self.agent1.name)
         return (self.matrix.get_payoffs(choice1, choice2), choice1, choice2)

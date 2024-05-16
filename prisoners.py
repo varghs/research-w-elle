@@ -14,6 +14,9 @@ class Cheater(dilemma.Prisoner):
     ) -> dilemma.Choice:
         return dilemma.Choice.CHEAT
 
+    def update_strat(self, other_player: str, other_player_choice: dilemma.Choice):
+        return super().update_strat(other_player, other_player_choice)
+
 
 class Cooperator(dilemma.Prisoner):
     """
@@ -24,6 +27,9 @@ class Cooperator(dilemma.Prisoner):
         self, matrix: dilemma.PayoffMatrix, num: int, other_player: str
     ) -> dilemma.Choice:
         return dilemma.Choice.COOPERATE
+
+    def update_strat(self, other_player: str, other_player_choice: dilemma.Choice):
+        return super().update_strat(other_player, other_player_choice)
 
 
 class Greedy(dilemma.Prisoner):
@@ -38,6 +44,9 @@ class Greedy(dilemma.Prisoner):
             np.argmax(matrix.payoffs[:, :, num]), matrix.payoffs[:, :, num].shape
         )
         return max_idx[num]
+
+    def update_strat(self, other_player: str, other_player_choice: dilemma.Choice):
+        return super().update_strat(other_player, other_player_choice)
 
 
 class Altruist(dilemma.Prisoner):
@@ -55,6 +64,9 @@ class Altruist(dilemma.Prisoner):
         )
         return max_idx[num]
 
+    def update_strat(self, other_player: str, other_player_choice: dilemma.Choice):
+        return super().update_strat(other_player, other_player_choice)
+
 
 class Random(dilemma.Prisoner):
     """
@@ -65,6 +77,9 @@ class Random(dilemma.Prisoner):
         self, matrix: dilemma.PayoffMatrix, num: int, other_player: str
     ) -> dilemma.Choice:
         return random.choice(list(dilemma.Choice))
+
+    def update_strat(self, other_player: str, other_player_choice: dilemma.Choice):
+        return super().update_strat(other_player, other_player_choice)
 
 
 class TitForTat(dilemma.Prisoner):
@@ -84,4 +99,4 @@ class TitForTat(dilemma.Prisoner):
         return self.previous_choices[other_player]
 
     def update_strat(self, other_player: str, other_player_choice: dilemma.Choice):
-        self.previous_choices[other_player]
+        self.previous_choices[other_player] = other_player_choice
