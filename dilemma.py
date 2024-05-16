@@ -36,16 +36,16 @@ class PayoffMatrix:
 
     def update(self, choice1: Choice, choice2: Choice):
         if choice1 == Choice.CHEAT and choice2 == Choice.COOPERATE:
-            self.payoffs *= 0.98
+            self.payoffs *= 0.998
 
         if choice1 == Choice.COOPERATE and choice2 == Choice.CHEAT:
-            self.payoffs *= 0.98
+            self.payoffs *= 0.998
 
         if choice1 == Choice.CHEAT and choice2 == Choice.CHEAT:
-            self.payoffs *= 0.95
+            self.payoffs *= 0.995
 
         if choice1 == Choice.COOPERATE and choice2 == Choice.COOPERATE:
-            self.payoffs *= 1.05
+            self.payoffs *= 1.005
 
     def __str__(self) -> str:
         return str(self.payoffs)
