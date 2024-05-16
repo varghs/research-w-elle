@@ -16,6 +16,18 @@ class Results:
 
         return wins
 
+    def pairing_outputs(self) -> Dict:
+        outputs = {}
+        for game in self.game_list:
+            if not ((game.player1, game.player2) in outputs):
+                outputs[(game.player1, game.player2)] = [0, 0]
+            outputs[(game.player1, game.player2)] = [
+                x + y
+                for x, y in zip(outputs[(game.player1, game.player2)], game.outcomes)
+            ]
+
+        return outputs
+
 
 class Result:
     def __init__(self, player1: str, player2: str, outcomes: List[int]):
